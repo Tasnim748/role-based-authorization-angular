@@ -1,0 +1,66 @@
+<div class="main-container">
+    <h2>News List</h2>
+    @if (!currentUserName) {
+        <p>You're not logged in</p>
+    }
+    @else if (loading) {
+        <p>Loading...</p>
+        <mat-spinner></mat-spinner>
+    } @else {
+        @if (currentUserPermissions.includes('Create')) {
+            <button mat-raised-button color="primary" (click)="openAdd()">Add new +</button>
+        } @if (currentUserPermissions.includes('Read')) {
+            <table mat-table [dataSource]="news()" class="mat-elevation-z8" class="the-table">
+                <ng-container matColumnDef="title">
+                    <th mat-header-cell *matHeaderCellDef> Title </th>
+                    <td mat-cell *matCellDef="let element"> {{element.title}} </td>
+                </ng-container>
+            
+                <ng-container matColumnDef="body">
+                    <th mat-header-cell *matHeaderCellDef> Body </th>
+                    <td mat-cell *matCellDef="let element"> {{element.body}} </td>
+                </ng-container>
+    
+                <ng-container matColumnDef="delete">
+                    <th mat-header-cell *matHeaderCellDef> Delete </th>
+                    <td mat-cell *matCellDef="let element">
+                        @if (currentUserPermissions.includes('Delete')) {
+                            <mat-icon class="icons" aria-hidden="false" (click)="openDelete(element._id)" aria-label="Example home icon" fontIcon="delete"></mat-icon>
+                        }
+                    </td>
+                </ng-container>
+    
+                <ng-container matColumnDef="edit">
+                    <th mat-header-cell *matHeaderCellDef> Edit </th>
+                    <td mat-cell *matCellDef="let element">
+                        @if (currentUserPermissions.includes('Update')) {
+                            <mat-icon class="icons" aria-hidden="false" (click)="onEditOpen(element._id, element.title, element.body)" aria-label="Example home icon" fontIcon="edit"></mat-icon>
+                        }
+                    </td>
+                </ng-container>
+    
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+        }
+    }
+</div>
+
+
+<ng-template #editTemplate>
+    <form>
+        <mat-form-field class="example-full-width">
+            <mat-label>Title</mat-label>
+            <input matInput placeholder="Input title" [(ngModel)]="titleUpdate" [ngModelOptions]="{standalone: true}">
+        </mat-form-field>
+    
+        <mat-form-field class="example-full-width">
+            <mat-label>Body</mat-label>
+            <textarea matInput placeholder="Input body" [(ngModel)]="bodyUpdate" [ngModelOptions]="{standalone: true}"></textarea>
+        </mat-form-field>
+    </form>
+</ng-template>
+
+<ng-template #deleteTemplate>
+    <p>Are you sure want to delete?</p>
+</ng-template>

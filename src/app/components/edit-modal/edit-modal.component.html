@@ -1,0 +1,8 @@
+<h2 mat-dialog-title>{{ data.title }}</h2>
+<mat-dialog-content>
+    <ng-container *ngTemplateOutlet="data.template"></ng-container>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-button (click)="onConfirm('cancel')">Cancel</button>
+    <button mat-button (click)="onConfirm('confirm')" cdkFocusInitial>{{ data.confirmBtn ? data.confirmBtn : "Save" }}</button>
+</mat-dialog-actions>

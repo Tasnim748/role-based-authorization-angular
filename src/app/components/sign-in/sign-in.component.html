@@ -1,0 +1,16 @@
+<div class="main-container">
+    <form class="example-form" (submit)="onSubmitHandle()">
+        <h3>Sign in</h3>
+        <mat-form-field class="example-full-width">
+            <mat-label>Username</mat-label>
+            <input matInput placeholder="Input your username" [(ngModel)]="username" [ngModelOptions]="{standalone: true}">
+        </mat-form-field>
+    
+        <mat-form-field class="example-full-width">
+            <mat-label>Password</mat-label>
+            <input matInput placeholder="Input your password" type="password" [(ngModel)]="password" [ngModelOptions]="{standalone: true}">
+        </mat-form-field>
+
+        <button type="submit" mat-raised-button color="primary" [disabled]="!(username && password)" style="padding: 0 6%;">Sign in</button>
+    </form>
+</div>

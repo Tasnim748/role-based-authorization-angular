@@ -1,0 +1,1 @@
+export const apiEndpoint: string = "http://localhost:3000/"

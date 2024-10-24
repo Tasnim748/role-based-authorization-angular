@@ -1,0 +1,73 @@
+<div class="main-container">
+    <h2>Roles List</h2>
+    @if (roles().length === 0) {
+        <p>You're not logged in</p>
+    } @else {
+        @if (currentUserRole === 'Admin') {
+            <button mat-raised-button color="primary" (click)="openAdd()">Add new +</button>
+        }
+        <table mat-table [dataSource]="roles()" class="mat-elevation-z8" class="the-table">
+            <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef> Name </th>
+                <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+            </ng-container>
+        
+            <ng-container matColumnDef="permissions">
+                <th mat-header-cell *matHeaderCellDef> Persmissions </th>
+                <td mat-cell *matCellDef="let element"> {{element.permissions}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="delete">
+                <th mat-header-cell *matHeaderCellDef> Delete </th>
+                <td mat-cell *matCellDef="let element">
+                    @if (currentUserRole === 'Admin') {
+                        <mat-icon class="icons" aria-hidden="false" (click)="openDelete(element._id)" aria-label="Example home icon" fontIcon="delete"></mat-icon>
+                    }
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="edit">
+                <th mat-header-cell *matHeaderCellDef> Edit </th>
+                <td mat-cell *matCellDef="let element">
+                    @if (currentUserRole === 'Admin') {
+                        <mat-icon class="icons" aria-hidden="false" (click)="onEditOpen(element._id, element.name, element.permissions)" aria-label="Example home icon" fontIcon="edit"></mat-icon>
+                    }
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+    }
+</div>
+
+
+<ng-template #editTemplate>
+    <form>
+        <mat-form-field class="example-full-width">
+            <mat-label>Role Name</mat-label>
+            <input matInput placeholder="Input role name" [(ngModel)]="roleNameUpdate" [ngModelOptions]="{standalone: true}">
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width">
+            <mat-label>Persmissions</mat-label>
+            <mat-select [formControl]="rolePermissionsUpdate" multiple>
+                <mat-select-trigger>
+                {{rolePermissionsUpdate.value?.[0] || ''}}
+                @if ((rolePermissionsUpdate.value?.length || 0) > 1) {
+                    <span class="example-additional-selection">
+                    (+{{(rolePermissionsUpdate.value?.length || 0) - 1}} {{rolePermissionsUpdate.value?.length === 2 ? 'other' : 'others'}})
+                    </span>
+                }
+                </mat-select-trigger>
+                @for (perm of allPermissions; track perm) {
+            <mat-option [value]="perm">{{perm}}</mat-option>
+            }
+            </mat-select>
+        </mat-form-field>
+    </form>
+</ng-template>
+
+<ng-template #deleteTemplate>
+    <p>Are you sure want to delete?</p>
+</ng-template>

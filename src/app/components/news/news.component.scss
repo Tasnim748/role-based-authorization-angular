@@ -1,0 +1,26 @@
+.main-container {
+    text-align: -webkit-center;
+    padding: 4% 0;
+}
+
+.the-table {
+    padding: 0 5%;
+}
+
+.icons {
+    cursor: pointer;
+}
+
+.example-full-width {
+    width: 100%;
+}
+
+th {
+    min-width: 200px;
+}
+
+td {
+    min-width: 200px;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
